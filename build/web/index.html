@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>        
+        <title>Login</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />      
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" />
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/home.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-switch.min.css" /> 
+        <link rel="stylesheet" type="text/css" href="css/menu.css" />         
+        <link rel="stylesheet" type="text/css" href="css/components.min.css" id="style_components" />        
+        <link rel="stylesheet" type="text/css" href="css/login.css" />
+        <link rel="stylesheet" type="text/css" href="css/error.min.css" />  
+        <link rel="shortcut icon" href="favicon.ico" /> 
+    </head>
+    <body class="page-404-3 login">
+        <div class="page-inner">
+            <img id="singapore-background" src="img/singapore-background.jpg" class="img-responsive" alt=""> 
+        </div>        
+        <div class="logo">
+            <div id="logo-fillter"></div>
+        </div>
+        <div class="content">                           
+            <form id="login-form" class="login-form" action="home.html" method="get"><!-- This is frontend so get is used. Best practice use post. -->
+                <h3 class="form-title">Login to your account</h3>
+                <!--<div class="alert alert-danger display-hide">
+                    <button class="close" data-close="alert"></button>
+                    <span> Invalid username or password. </span>
+                </div>-->
+                <div class="form-group">
+                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->                
+                    <label class="control-label visible-ie8 visible-ie9">Username</label><!-- username is hardcoded as 'admin' -->
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" id="username" name="username" /> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">Password</label><!-- password is hardcoded as 'password' -->
+                    <div class="input-icon">
+                        <i class="fa fa-lock"></i>
+                        <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" id="password" name="password" /> 
+                    </div>
+                </div>
+                <div class="form-group">   
+                    <label class="mt-checkbox mt-checkbox-outline">
+                        <input type="checkbox" id="tnc" name="tnc" /> I agree to the
+                        <a id="show-terms-and-conditions">Terms of Use </a>
+                        <span></span>
+                    </label>    
+                </div>   
+                <div class="form-group">
+                    <label class="rememberme mt-checkbox mt-checkbox-outline">
+                        <input id="remember" type="checkbox" name="remember" /> Remember me
+                        <span></span>
+                    </label>
+                    <button id="login" type="submit" class="btn pull-right"> Login </button>
+                </div>    
+            </form>
+
+            <div id="notification" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <p id="modal-message"></p>
+                        </div>                                       
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="term-and-conditions">                
+                <table style="width:100%;height:100%">
+                    <tr style="height:15%;" align="top">
+                        <td style="color:black;text-align:center"><h3 class="form-title">Terms of Use</h3></td>
+                        <td><i id="close-terms-and-conditions" class="fa fa-times-circle-o fa-2x pull-right"></i></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="term-and-conditions-content">
+                                <div id="main_0_div_Content">
+                                    <p>Access to this website is granted by the Geek (CC). By accessing this website, you shall be deemed to have accepted and agreed to be bound by the terms and conditions below. If you do not agree to the terms and conditions, please discontinue your access immediately.<br>
+                                        <br>
+                                        <b>Amendments And Additional Terms and Conditions</b><br>
+                                        <br>
+                                        These terms and conditions may be amended by the Geek (CC) from time to time without notice. You shall be deemed to have accepted and agreed to the terms and conditions as amended upon your use of this website after the amendments have been made. You should therefore check these terms and conditions every time you use this website.<br>
+                                        <br>
+                                        In addition to these terms and conditions, additional terms and conditions may apply to the use of certain services offered in this website. By using such services, you shall also be deemed to have accepted and agreed to be bound by the additional terms and conditions as stated in the parts of this website where such services are offered. Where there is any inconsistency between these terms and conditions and the additional terms and conditions, the additional terms and conditions shall to the extent of such inconsistency, prevail.<br>
+                                        <br>
+                                        <b>Availability And Right Of Access</b><br>
+                                        <br>
+                                        Geek (CC) may at any time suspend the operations of this website or all or any part of the services contained in this website for any period of time without any prior notice whether for the purposes of updating, upgrading, system maintenance, or otherwise.<br>
+                                        <br>
+                                        Geek (CC) further reserves all rights to deny or restrict access to this website by any person at any time without any notice or assigning any reason whatsoever.<br>
+                                        <br>
+                                        The contents of this website including all services available within it may be modified, deleted, edited or withdrawn by Geek (CC) in its discretion at any time without prior notice.<br>
+                                        <br>
+                                        <b>Links To Other Websites</b><br>
+                                        <br>
+                                        This website contains links to other websites, which may not be maintained by Geek (CC). Other websites may also contain links to this website. Geek (CC) is not responsible for the contents of such other websites and shall not be liable to any person for any loss, damage or injury caused thereby or as a result of access to such other websites. Any link to other websites is provided as a convenience to you and does not imply Geek (CC)'s endorsement of the linked websites or association with its operators. The use of any such link is entirely at your own risk.<br>
+                                        <br>
+                                        If you wish to establish a link to this website, you are required to obtain Geek (CC)'s prior permission to do so. If permission is given, Geek (CC) shall not be obliged to establish reciprocal links with any website operated by you.<br>
+                                        <br>
+                                        <b>Provision Of Information Or Data</b><br>
+                                        <br>
+                                        Where you undertake any interactive communication with or provide any information or data to Geek (CC) through the use of any service available within this website, you are required to ensure that it is not misleading or inaccurate, does not violate any applicable laws or rights, and does not contain or will not import any viruses or other disabling devices which may interfere, damage, intercept, access or expropriate any system, data or information of Geek (CC) or other third parties.<br>
+                                        <br>
+                                        <b>Intellectual Property Rights</b><br>
+                                        <br>
+                                        The contents of this website including but not limited to all information, text, graphics, music, sound, scripts, programs, software, technology, design, data compilation and other materials or works (collectively "the Materials") are protected by copyright, trademark and other forms of proprietary rights. All rights, title and interest in the Materials are owned by, licensed to, or controlled by Geek (CC).<br>
+                                        <br>
+                                        You are permitted to view, download and print the Materials for personal and non-commercial use provided you do not modify the Materials and retain any copyright or proprietary notice contained in the Materials.<br>
+                                        <br>
+                                        Except for the limited permission mentioned above, no part or parts of the Materials may be reproduced, republished, reverse compiled, adapted, modified, distributed, commercially exploited, displayed, broadcast, hyperlinked, framed or transmitted in any manner or by any means or stored in an information retrieval system without the prior written consent of Geek (CC).<br>
+                                        <br>
+                                        <b>Disclaimer</b><br>
+                                        <br>
+                                        Geek (CC) has used reasonable endeavours to ensure that the Materials are correct at the time of posting. However, Geek (CC) does not warrant the accuracy, adequacy or completeness of the Materials and expressly disclaims liability for any error or omission in the Materials.<br>
+                                        <br>
+                                        No warranty of any kind, express, implied or statutory, including but not limited to warranties of non-infringement of third party rights, title, merchantability, satisfactory quality and/or fitness for a particular purpose, is given in conjunction with the Materials and/or this website.<br>
+                                        <br>
+                                        Geek (CC) does not warrant that any of the Materials or that this website will be provided uninterrupted or free from errors or that any identified defect will be corrected. Further, no warranty is given that this website and the Materials are free from any virus or other harmful program, code or macro.<br>
+                                        <br>
+                                        <b>Exclusion Of Liability</b><br>
+                                        <br>
+                                        To the fullest extent permitted by law, Geek (CC) shall in no event be liable for any damages, loss or expense, direct or indirect, including but without limitation, special or consequential damage, or economic loss arising from or in connection with -</p>
+                                    <ol style="list-style-type: lower-alpha;">
+                                        <li>any access, use or inability to access or use this website, or reliance on the Materials; <br>
+                                            <br>
+                                        </li>
+                                        <li>any system, server or connection failure, error, omission, interruption, delay in transmission, or computer virus; and <br>
+                                            <br>
+                                        </li>
+                                        <li>any use of or access to any other website linked to this website;</li>
+                                    </ol>
+                                    <p>even if Geek (CC) or its employees are advised of the possibility of such damages, losses and/or expenses. </p>
+                                    <p><b>Severence of Terms</b><b></b><b><br>
+                                            <br>
+                                        </b>If any provision of these terms and conditions is determined to be invalid or unenforceable, then such invalidity or unenforceability shall not have any effect on any other provision of these terms and conditions, all of which shall remain valid and enforceable.<br>
+                                        <br>
+                                        <b>Governing Law And Jurisdiction</b><br>
+                                        <br>
+                                        By accessing this website and/or using the services available within this website, you agree that Singapore Law shall govern such access and the provision of such services, as well as the application of these terms and conditions. Further, you agree to submit to the non-exclusive jurisdiction of the Singapore courts regarding any and all disputes relating to these terms and conditions and/or the use of this website. </p>
+                                    <p>&nbsp;</p></div>
+                            </div>  
+                        </td>
+                    </tr>
+                </table>              
+            </div>
+        </div>            
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>    
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>                       
+        <script type="text/javascript" src="js/bootstrap-switch.min.js"></script>      
+        <script type="text/javascript" src="js/jquery.validate.min.js"></script>             
+        <script type="text/javascript" src="js/app.min.js"></script>    
+        <script type="text/javascript" src="js/login.min.js"></script>
+    </body>
+</html>
