@@ -24,31 +24,32 @@
         <link rel="shortcut icon" href="favicon.ico" />       
     </head>
     <body>
-        <!--<input id="search_address" type="text" placeholder="Enter address..." style="position: absolute;z-index:1000;margin-top:15px;margin-left:60px;width:70vw;" class="form-control input-circle" />        -->
-        
         <div id="map"></div>
         <ul id="myiconmenu" class="iconmenu">            
-            <!--<li><a class="fa fa-info-circle" href="#"></a></li>-->             
-            <li><a id="upload-geojson" class="fa fa-upload" href="#"></a></li>                             
-            <li><a id="show-regions" class="fa fa-toggle-off" href="#"></a></li>
-            <li><a id="edit-mode" class="fa fa-pencil" href="#"></a></li>
-            <li><a id="logout-option" class="fa fa-unlock" href="#"></a></li>              
+            <!--<li><a class="fa fa-info-circle" href="#" rel="app_info"></a></li>-->         
+            <li><a id="toggle-boundaries" class="fa fa-eye-slash" href="#" rel="toggle-boundaries2"></a></li>                     
+            <!--<li><a class="fa fa-bars" rel="boundary-display"></a></li>-->
+            <!--<li><a id="chart-option" class="fa fa-line-chart" href="#" rel="chart"></a></li>-->
+            <li><a id="edit-mode" class="fa fa-pencil" href="#" rel="edit"></a></li>
+            <li><a id="logout-option" class="fa fa-unlock" href="#" rel="logout"></a></li>           
         </ul>  
 
-        <div id="notification" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog">
-                <div class="modal-content" style="background-color:white">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <p id="modal-message"></p>
-                    </div>                                       
-                </div>
-            </div>
+        <!--
+        <div id="logout" class="iconsubmenu mixedcontent">
+            <p>Logout</p>            
         </div>
+        
+        <div id="boundary-display" class="iconsubmenu dropdownmenu">
+            <ul>                
+                <li><a href="#">Option 1</a></li>
+                <li><a href="#">Option 2</a></li>                     
+            </ul>
+        </div>-->
 
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.js"></script>        
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>                
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>        
+        <script type="text/javascript" src="js/menu.js"></script> 
 
         <script src="js/Toolbar.js"></script>
         <script src="js/Tooltip.js"></script>
@@ -61,7 +62,274 @@
         <script src="js/Control.Draw.js"></script>
         <script src="js/Edit.Leaflet.js"></script> 
 
-        <script src="js/validate-geojson.js"></script>
-        <script src="js/home.js"></script>         
+        <script type="text/javascript">
+            var map;
+            var geojson_text = '{ "type": "FeatureCollection", "features": [] };';
+
+            $(document).ready(function () {
+                window.history.pushState('basic-pages', 'Title', 'home.html'); // to overwrite url
+
+                map = L.map('map', {
+                    center: [1.3521, 103.8198],
+                    zoom: 11
+                });
+
+                var layer_group = new L.layerGroup([]);
+                var basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png');
+                layer_group.addLayer(basemap);
+                layer_group.addTo(map);
+
+                var feature_group;
+                var mapLayerJSON;
+
+                document.getElementById("toggle-boundaries").onclick = function () {
+                    if ($(this).hasClass("fa-eye-slash")) {
+                        $(this).removeClass("fa-eye-slash");
+                        $(this).addClass("fa-eye");
+
+                        feature_group = new L.featureGroup([]);
+
+                        mapLayerJSON = new L.GeoJSON.AJAX("DB_Controller", {
+                            style: {
+                                color: '#c4c4c4',
+                                weight: '2.0',
+                                fillColor: '#08306b',
+                                opacity: '0.5',
+                                fillOpacity: '0.0',
+                            }
+                        });
+
+                        feature_group.addLayer(mapLayerJSON);
+                        feature_group.addTo(map);
+                    } else {
+                        $(this).removeClass("fa-eye");
+                        $(this).addClass("fa-eye-slash");
+
+                        feature_group.clearLayers();
+                    }
+                }
+
+                document.getElementById("edit-mode").onclick = function () {
+                    $("#myiconmenu.iconmenu").css("display", "none");
+                    $(".leaflet-draw.leaflet-control").css("display", "block");
+
+                    $(".leaflet-draw-section").each(function (i) {
+                        if (i == $(".leaflet-draw-section").length - 1 && i < 2) {
+                            $(this).append('<div class="leaflet-draw-section"><div class="leaflet-draw-toolbar leaflet-bar"><a id="save_geojson" href="#" title="Save to File (GeoJson)" class="fa fa-save"><span class="sr-only">Save to File (GeoJson)</span></a><a id="default_mode" href="#" title="Default Mode" class="fa fa-arrow-left"><span class="sr-only">Default Mode</span></a></div></div>');
+                        }
+                    });
+                }
+
+                $("body").on("click", "#default_mode", function () {
+                    $("#myiconmenu.iconmenu").css("display", "block");
+                    $(".leaflet-draw.leaflet-control").css("display", "none");
+                });
+
+                $("body").on("click", "#save_geojson", function () {
+                    //alert(geojson_text);                                        
+                    if (!window.Blob) {
+                        alert('Your browser does not support HTML5 "Blob" function required to save a file.');
+                    } else {
+                        var txtwrt = geojson_text;
+
+                        var textblob = new Blob([txtwrt], {type: 'text/plain'});
+                        var dwnlnk = document.createElement('a');
+                        dwnlnk.download = "geojson";
+                        if (window.webkitURL != null) {
+                            dwnlnk.href = window.webkitURL.createObjectURL(textblob);
+                        } else {
+                            dwnlnk.href = window.URL.createObjectURL(textblob);
+                            dwnlnk.onclick = destce;
+                            dwnlnk.style.display = 'none';
+                            document.body.appendChild(dwnlnk);
+                        }
+                        dwnlnk.click();
+                    }
+                });
+
+                L.control.scale({options: {position: "bottomleft", maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}}).addTo(map);
+
+                var getRandomLocation = function (latitude, longitude, radiusInMeters) {
+                    var getRandomCoordinates = function (radius, uniform) {
+                        var a = Math.random();
+                        var b = Math.random();
+
+                        if (uniform) {
+                            if (b < a) {
+                                var c = b;
+                                b = a;
+                                a = c;
+                            }
+                        }
+
+                        return [
+                            b * radius * Math.cos(2 * Math.PI * a / b),
+                            b * radius * Math.sin(2 * Math.PI * a / b)
+                        ];
+                    };
+                    var randomCoordinates = getRandomCoordinates(radiusInMeters, true);
+                    var earth = 6378137;
+                    var northOffset = randomCoordinates[0],
+                            eastOffset = randomCoordinates[1];
+                    var offsetLatitude = northOffset / earth,
+                            offsetLongitude = eastOffset / (earth * Math.cos(Math.PI * (latitude / 180)));
+                    return {
+                        latitude: latitude + (offsetLatitude * (180 / Math.PI)),
+                        longitude: longitude + (offsetLongitude * (180 / Math.PI))
+                    }
+                };
+
+                /*
+                 map.on('click', function (e) {
+                 prompt(e.latlng.lat + ", " + e.latlng.lng, e.latlng.lat + ", " + e.latlng.lng)
+                 });
+                 */
+
+                var point;
+                var pointArr = [];
+
+                var pointProperties = {
+                    color: 'darkgreen',
+                    fillColor: 'lightgreen',
+                    fillOpacity: 1.0
+                };
+
+                var latlong;
+                var i;
+
+                var distance = 4000; // in metres
+                var noOfppl = 50;
+
+                function crowdMovement() {
+                    // central
+                    for (i = 0; i < noOfppl; i++) {
+                        latlong = getRandomLocation(1.3521, 103.8198, distance);
+                        point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
+                        pointArr.push(point);
+                        point.addTo(map);
+                    }
+
+                    // north
+                    for (i = 0; i < noOfppl; i++) {
+                        latlong = getRandomLocation(1.4269307173650994, 103.81324768066406, distance);
+                        point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
+                        pointArr.push(point);
+                        point.addTo(map);
+                    }
+
+                    // east
+                    for (i = 0; i < noOfppl; i++) {
+                        latlong = getRandomLocation(1.3670959104527012, 103.90079498291016, distance);
+                        point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
+                        pointArr.push(point);
+                        point.addTo(map);
+                    }
+
+                    // west
+                    for (i = 0; i < noOfppl; i++) {
+                        latlong = getRandomLocation(1.361604303714409, 103.7112808227539, 5000);
+                        point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
+                        pointArr.push(point);
+                        point.addTo(map);
+                    }
+
+                    // central-west
+                    for (i = 0; i < noOfppl; i++) {
+                        latlong = getRandomLocation(1.3699561173272734, 103.76792907714844, distance);
+                        point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
+                        pointArr.push(point);
+                        point.addTo(map);
+                    }
+
+                    // extreme east
+                    for (i = 0; i < noOfppl; i++) {
+                        latlong = getRandomLocation(1.3466167301443492, 103.97117614746094, 3000);
+                        point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
+                        pointArr.push(point);
+                        point.addTo(map);
+                    }
+
+                    // south
+                    for (i = 0; i < noOfppl; i++) {
+                        latlong = getRandomLocation(1.3013102263776561, 103.82560729980469, distance);
+                        point = L.circle([latlong["latitude"], latlong["longitude"]], 50, pointProperties);
+                        pointArr.push(point);
+                        point.addTo(map);
+                    }
+                }
+
+                var p;
+
+                crowdMovement();
+
+                setInterval(function () {
+                    crowdMovement();
+
+                    for (p = 0; p < pointArr.length; p++) {
+                        map.removeLayer(pointArr[p]);
+                    }
+
+                    crowdMovement();
+                }, 5000);
+
+                $("#logout-option").click(function () {
+                    location.href = "index.html";
+                });
+
+
+                var drawnItems = L.featureGroup().addTo(map);
+
+                map.addControl(new L.Control.Draw({
+                    edit: {
+                        featureGroup: drawnItems,
+                        poly: {
+                            allowIntersection: false
+                        }
+                    },
+                    draw: {
+                        polygon: {
+                            allowIntersection: false,
+                            showArea: true
+                        }
+                    }
+                }));
+
+                map.on(L.Draw.Event.CREATED, function (event) {
+                    var layer = event.layer;
+                    drawnItems.addLayer(layer);
+
+                    geojson_text = JSON.stringify(drawnItems.toGeoJSON()); // to get the geojson out
+                    console.log(geojson_text);
+                });
+                
+                var winH = $(window).height();
+                var winW = $(window).width();
+                
+                if (winH < 450) {
+                    $("#map").height(450);                    
+                }                                
+                
+                window.onresize = function() {
+                    winH = $(window).height();
+
+                    if (winH < 450) {
+                        $("#map").height(450);
+                    } else {
+                        $("#map").height(winH);
+                    }
+                                        
+                }
+                
+                /*
+                 $(".panel, #main-menu").on("mouseover", function() {                     
+                 map.dragging.disable(); 
+                 }); 
+                 
+                 $(".panel, #main-menu").on("mouseout", function() {                     
+                 map.dragging.enable(); 
+                 });                 
+                 */
+            });
+        </script>     
     </body>
 </html>

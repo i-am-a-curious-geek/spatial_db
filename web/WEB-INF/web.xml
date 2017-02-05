@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>db</servlet-name>
-        <servlet-class>dao.db</servlet-class>
+        <servlet-name>DB_Controller</servlet-name>
+        <servlet-class>dao.DB_Controller</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>db</servlet-name>
-        <url-pattern>/db</url-pattern>
+        <servlet-name>DB_Controller</servlet-name>
+        <url-pattern>/DB_Controller</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
