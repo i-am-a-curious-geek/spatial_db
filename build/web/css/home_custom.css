@@ -51,3 +51,31 @@
         width:100vw;
     }
 }
+
+#info {     
+    border:2px solid #ccc;   
+    background-color:white;     
+    padding:10px;        
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 60vw;
+    height: 60vh;
+    z-index:1000;
+    color:black;   
+}
+
+#info-content {      
+    height:100%;
+    overflow-y:auto;
+    color:black;
+    background-color:white;
+}
+
+#close-info:hover {
+    color:#ccc;
+    cursor:pointer;
+}

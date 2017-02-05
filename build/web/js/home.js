@@ -354,5 +354,15 @@ $(document).ready(function() {
     });
 
     document.getElementById("show-regions").click();
+    
+    $("body").on("click", "#close-info", function () {
+        console.log("clicked");
+        $("#info").css("display", "none");
+    });
 
+    $("body").on("click", "#show-info", function () {
+        console.log("clicked");
+        $("#info").css("display", "block");
+    });
+    
 }); // document ready

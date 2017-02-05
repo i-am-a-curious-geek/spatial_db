@@ -25,10 +25,10 @@
     </head>
     <body>
         <!--<input id="search_address" type="text" placeholder="Enter address..." style="position: absolute;z-index:1000;margin-top:15px;margin-left:60px;width:70vw;" class="form-control input-circle" />        -->
-        
+
         <div id="map"></div>
         <ul id="myiconmenu" class="iconmenu">            
-            <!--<li><a class="fa fa-info-circle" href="#"></a></li>-->             
+            <li><a id="show-info" class="fa fa-info-circle" href="#"></a></li>            
             <li><a id="upload-geojson" class="fa fa-upload" href="#"></a></li>                             
             <li><a id="show-regions" class="fa fa-toggle-off" href="#"></a></li>
             <li><a id="edit-mode" class="fa fa-pencil" href="#"></a></li>
@@ -44,6 +44,30 @@
                     </div>                                       
                 </div>
             </div>
+        </div>
+
+        <div id="info">                
+            <table style="width:100%;height:100%">
+                <tr style="height:15%;" align="top">
+                    <td style="color:black;text-align:center;background-color:white"><h3 class="form-title" style="background-color:white;color:black">Information</h3></td>
+                    <td style="color:black;background-color:white"><i id="close-info" class="fa fa-times-circle-o fa-2x pull-right"></i></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="info-content">
+                            <div id="main_0_div_Content">                                
+                                <ol style="list-style-type: lower-alpha;">
+                                    <li>Select <i class="fa fa-upload"></i> to upload a valid GeoJSON file to display on the base map. <br><br></li>
+                                    <li>Select <i class="fa fa-toggle-off"></i> to hide the boundaries of the regions displayed on the map. <br><br></li> 
+                                    <li>Select <i class="fa fa-toggle-on"></i> to display the boundaries of the regions displayed on the map. <br><br></li>                                    
+                                    <li>Select <i class="fa fa-pencil"></i> to display edit mode of the map.<br><br> </li>
+                                    <li>Note that in edit mode, when <i class="fa fa-arrow-left"></i> is selected and edit mode is reverted back to default mode, all changes will be lost so do select <i class="fa fa-save"></i> to download the GeoJSON file. This file can then be uploaded via the <i class="fa fa-upload"></i> button available in default mode to be displayed on the map." <br><br></li>
+                                    <li>Select <i class="fa fa-unlock"></i> to logout of the application.</li>
+                                </ol>                               
+                            </div>  
+                    </td>
+                </tr>
+            </table>              
         </div>
 
         <script type="text/javascript" src="js/jquery.min.js"></script>
