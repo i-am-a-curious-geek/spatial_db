@@ -179,6 +179,7 @@
 
 .leaflet-touch .leaflet-draw-toolbar .leaflet-draw-draw-circle {
     background-position: -90px -1px;
+    display:none;
 }
 
 .leaflet-draw-toolbar .leaflet-draw-draw-marker {
